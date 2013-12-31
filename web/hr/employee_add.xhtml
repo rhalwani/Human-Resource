@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>New Employee</title>
+    </h:head>
+    <h:body style="background-color: cornsilk;">
+        <h:form id="logoutform" style="padding-left: 95%;" >
+            <h:commandButton id="logoutButton" value="Logout" action="#{loginMBean.closeSession()}" type="submit"/>
+        </h:form>
+        <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
+        <p:spacer height="20px;" />
+
+        <h:form id="navform" prependId="false" style="padding-left: 40%">
+            <p:panelGrid columns="3">
+                <p:commandLink value="Home" action="/home/index?faces-redirect=true" />
+                <p:commandLink value="Employees Home" action="/home/employee_index?faces-redirect=true" />
+                <p:commandLink value="View Employees" action="/home/employee_view?faces-redirect=true" />
+            </p:panelGrid>
+        </h:form>
+        <p:spacer height="30px;" />
+        <h:form id="newform" prependId="false" style="padding-left: 38%;">
+            <p:panel header="New Employee" style="width: 525px;" id="inputpanel">
+                <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
+                <p:panelGrid columns="2" id="grid">
+                    <p:outputLabel for="firstname" value="Name:" />
+                    <p:inputText id="firstname" value="#{employeeMBean.firstName}" required="true" />
+                    <p:outputLabel for="midname" value="Middle Name:" />
+                    <p:inputText id="midname" value="#{employeeMBean.midName}" />
+                    <p:outputLabel for="surname" value="Surname:" />
+                    <p:inputText id="surname" value="#{employeeMBean.surname}" required="true" />
+                    <p:outputLabel for="pid" value="Personal ID:" />
+                    <p:selectOneMenu id="pid" value="#{employeeMBean.personalIdType}" >
+                        <f:selectItem itemLabel="" itemValue="0" />
+                        <f:selectItems value="#{allObjBean.personalIDList}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="pidnum" value="ID Num:" />
+                    <p:inputText id="pidnum" value="#{employeeMBean.personalIdNum}"  />
+                    <p:outputLabel for="job" value="Job:" />
+                    <p:selectOneMenu id="job" value="#{employeeMBean.job}" required="true" >
+                        <f:selectItems value="#{allObjBean.jobTitleList}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="dept" value="Department:" />
+                    <p:selectOneMenu id="dept" value="#{employeeMBean.department}" required="true" >
+                        <f:selectItems value="#{allObjBean.departmentAndRootsList}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="mobile1" value="Mobile 1:" />
+                    <p:inputText id="mobile1" value="#{employeeMBean.mobnum1}" />
+                    <p:outputLabel for="mobile2" value="Mobile 2:" />
+                    <p:inputText id="mobile2" value="#{employeeMBean.mobnum2}" />
+                    <p:outputLabel for="landline" value="Landline:" />
+                    <p:inputText id="landline" value="#{employeeMBean.landline}" />
+                    <p:outputLabel for="email" value="Email:" />
+                    <p:inputText id="email" value="#{employeeMBean.email}" />
+                    <f:facet name="footer">
+                        <p:panelGrid columns="2">
+                            <p:commandButton value="Add Employee" actionListener="#{employeeMBean.addNewEmployee()}" update="grid"/>
+                            <p:commandButton value="Reset" update="newform" process="@this">
+                                <p:resetInput target="newform" />
+                            </p:commandButton>
+                        </p:panelGrid>
+                    </f:facet>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

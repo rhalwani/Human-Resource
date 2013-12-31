@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Create New Department</title>
+    </h:head>
+    <h:body style="background-color: cornsilk;">
+        <h:form id="logoutform" style="padding-left: 95%;" >
+            <h:commandButton id="logoutButton" value="Logout" action="#{loginMBean.closeSession()}" type="submit"/>
+        </h:form>
+        <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
+        <p:spacer height="20px;" />
+
+        <h:form id="navform" prependId="false" style="padding-left: 40%">
+            <p:panelGrid columns="3">
+                <p:commandLink value="Home" action="/home/index?faces-redirect=true" />
+                <p:commandLink value="Departments Home" action="/home/department_index?faces-redirect=true" />
+                <p:commandLink value="View Departments" action="/home/department_view?faces-redirect=true" />
+            </p:panelGrid>
+        </h:form>
+        <p:spacer height="30px;" />
+        <h:form id="newform" prependId="false" style="padding-left: 38%;">
+            <p:panel header="New Department" style="width: 525px;" id="inputpanel">
+                <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
+                <p:panelGrid columns="2" id="grid">
+                    <p:outputLabel for="depname" value="Department Name:" />
+                    <p:inputText id="depname" value="#{departmentMBean.departName}" required="true" />
+                    <p:outputLabel for="rootdepid" value="Root Department:" />
+                    <p:selectOneMenu id="rootdepid" value="#{departmentMBean.rootDepID}" >
+                        <f:selectItem itemValue="0" itemLabel="" />
+                        <f:selectItems value="#{allObjBean.rootDepartmentList}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="parenttdepid" value="Parent Department:" />
+                    <p:selectOneMenu id="parenttdepid" value="#{departmentMBean.parentDepID}" >
+                        <f:selectItem itemValue="0" itemLabel="" />
+                        <f:selectItems value="#{allObjBean.departNameList}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel for="deptmgr" value="Managed By:" />
+                    <p:selectOneMenu id="deptmgr" value="#{departmentMBean.departMgr}" >
+                        <f:selectItem itemValue="0" itemLabel="" />
+                        <f:selectItems value="#{allObjBean.employeeNameList}" />
+                    </p:selectOneMenu>
+                    <f:facet name="footer">
+                        <p:panelGrid columns="2">
+                            <p:commandButton value="Add Department" actionListener="#{departmentMBean.addNewDepartment()}" update="grid"/>
+                            <p:commandButton value="Reset" update="newform" process="@this">
+                                <p:resetInput target="newform" />
+                            </p:commandButton>
+                        </p:panelGrid>
+                    </f:facet>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+    </h:body>
+</html>
+

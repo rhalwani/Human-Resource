@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Africell Employee List</title>
+    </h:head>
+    <h:body style="background-image: url(#{resource['images:lightResource1.jpg']}); background-position: 50% 70%; background-attachment: fixed; background-repeat: no-repeat; background-color: cornsilk">
+        <h:form style="padding-left: 95%;">
+            <h:commandButton id="logoutButton" action="#{loginMBean.closeSession()}" type="submit" value="Logout"/>
+        </h:form>
+        <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
+        <h1 style="padding-left: 38%; color: burlywood; font-family: 'Helvetica'; font-weight: bolder">Employee List</h1>
+        <p:spacer height="20 px" />
+        <h:form id="employeevform" prependId="false">
+            <p:dataTable id="employeedata"
+                         var="employee"
+                         value="#{allObjBean.employeeList}"
+                         editable="false"
+                         sortBy="empID"
+                         rows="10"
+                         paginator="true"
+                         filteredValue="#{allObjBean.filteredEmployeeList}"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         emptyMessage="No Africell employee found with given criteria">
+
+                <f:facet name="header">
+                    List of Africell Employees
+                </f:facet>
+
+                <p:column headerText="ID" filterMatchMode="exact" filterBy="empID">
+                    <h:outputText value="#{employee.empID}" />
+                </p:column>
+                <p:column headerText="Name" filterMatchMode="startsWith" filterBy="firstName">
+                    <h:outputText value="#{employee.firstName}" />
+                </p:column>
+                <p:column headerText="Surname" filterMatchMode="startsWith" filterBy="lastName">
+                    <h:outputText value="#{employee.lastName}" />
+                </p:column>
+                <p:column headerText="Job" filterMatchMode="exact" filterBy="jobID">
+                    <h:outputText value="#{employee.jobID}" />
+                </p:column>
+            </p:dataTable>
+        </h:form>
+    </h:body>
+</html>
+
