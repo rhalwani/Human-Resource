@@ -34,7 +34,32 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Leave.findByDaysEndBal", query = "SELECT l FROM Leave l WHERE l.daysEndBal = :daysEndBal"),
     @NamedQuery(name = "Leave.findByTicketsStartBal", query = "SELECT l FROM Leave l WHERE l.ticketsStartBal = :ticketsStartBal"),
     @NamedQuery(name = "Leave.findByTicketsEndBal", query = "SELECT l FROM Leave l WHERE l.ticketsEndBal = :ticketsEndBal")})
+
 public class Leave implements Serializable {
+    @Column(name = "Prev_Year_Days_Start_Bal")
+    private Integer prevYearDaysStartBal;
+    @Column(name = "Prev_Year_Days_End_Bal")
+    private Integer prevYearDaysEndBal;
+    @Column(name = "Curr_Year_Days_Start_Bal")
+    private Integer currYearDaysStartBal;
+    @Column(name = "Curr_Year_Days_End_Bal")
+    private Integer currYearDaysEndBal;
+    @Column(name = "Next_Year_Days_Start_Bal")
+    private Integer nextYearDaysStartBal;
+    @Column(name = "Next_Year_Days_End_Bal")
+    private Integer nextYearDaysEndBal;
+    @Column(name = "Prev_Year_Tickets_Start_Bal")
+    private Integer prevYearTicketsStartBal;
+    @Column(name = "Prev_Year_Tickets_End_Bal")
+    private Integer prevYearTicketsEndBal;
+    @Column(name = "Curr_Year_Tickets_Start_Bal")
+    private Integer currYearTicketsStartBal;
+    @Column(name = "Curr_Year_Tickets_End_Bal")
+    private Integer currYearTicketsEndBal;
+    @Column(name = "Next_Year_Tickets_Start_Bal")
+    private Integer nextYearTicketsStartBal;
+    @Column(name = "Next_Year_Tickets_End_Bal")
+    private Integer nextYearTicketsEndBal;
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected LeavePK leavePK;
@@ -164,6 +189,102 @@ public class Leave implements Serializable {
     @Override
     public String toString() {
         return "entity.Leave[ leavePK=" + leavePK + " ]";
+    }
+
+    public Integer getPrevYearDaysStartBal() {
+        return prevYearDaysStartBal;
+    }
+
+    public void setPrevYearDaysStartBal(Integer prevYearDaysStartBal) {
+        this.prevYearDaysStartBal = prevYearDaysStartBal;
+    }
+
+    public Integer getPrevYearDaysEndBal() {
+        return prevYearDaysEndBal;
+    }
+
+    public void setPrevYearDaysEndBal(Integer prevYearDaysEndBal) {
+        this.prevYearDaysEndBal = prevYearDaysEndBal;
+    }
+
+    public Integer getCurrYearDaysStartBal() {
+        return currYearDaysStartBal;
+    }
+
+    public void setCurrYearDaysStartBal(Integer currYearDaysStartBal) {
+        this.currYearDaysStartBal = currYearDaysStartBal;
+    }
+
+    public Integer getCurrYearDaysEndBal() {
+        return currYearDaysEndBal;
+    }
+
+    public void setCurrYearDaysEndBal(Integer currYearDaysEndBal) {
+        this.currYearDaysEndBal = currYearDaysEndBal;
+    }
+
+    public Integer getNextYearDaysStartBal() {
+        return nextYearDaysStartBal;
+    }
+
+    public void setNextYearDaysStartBal(Integer nextYearDaysStartBal) {
+        this.nextYearDaysStartBal = nextYearDaysStartBal;
+    }
+
+    public Integer getNextYearDaysEndBal() {
+        return nextYearDaysEndBal;
+    }
+
+    public void setNextYearDaysEndBal(Integer nextYearDaysEndBal) {
+        this.nextYearDaysEndBal = nextYearDaysEndBal;
+    }
+
+    public Integer getPrevYearTicketsStartBal() {
+        return prevYearTicketsStartBal;
+    }
+
+    public void setPrevYearTicketsStartBal(Integer prevYearTicketsStartBal) {
+        this.prevYearTicketsStartBal = prevYearTicketsStartBal;
+    }
+
+    public Integer getPrevYearTicketsEndBal() {
+        return prevYearTicketsEndBal;
+    }
+
+    public void setPrevYearTicketsEndBal(Integer prevYearTicketsEndBal) {
+        this.prevYearTicketsEndBal = prevYearTicketsEndBal;
+    }
+
+    public Integer getCurrYearTicketsStartBal() {
+        return currYearTicketsStartBal;
+    }
+
+    public void setCurrYearTicketsStartBal(Integer currYearTicketsStartBal) {
+        this.currYearTicketsStartBal = currYearTicketsStartBal;
+    }
+
+    public Integer getCurrYearTicketsEndBal() {
+        return currYearTicketsEndBal;
+    }
+
+    public void setCurrYearTicketsEndBal(Integer currYearTicketsEndBal) {
+        this.currYearTicketsEndBal = currYearTicketsEndBal;
+    }
+
+    public Integer getNextYearTicketsStartBal() {
+        return nextYearTicketsStartBal;
+    }
+
+    public void setNextYearTicketsStartBal(Integer nextYearTicketsStartBal) {
+        this.nextYearTicketsStartBal = nextYearTicketsStartBal;
+    }
+
+    public Integer getNextYearTicketsEndBal() {
+        return nextYearTicketsEndBal;
+    }
+
+    public void setNextYearTicketsEndBal(Integer nextYearTicketsEndBal) {
+        this.nextYearTicketsEndBal = nextYearTicketsEndBal;
     }
     
 }

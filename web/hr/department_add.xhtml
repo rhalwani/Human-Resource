@@ -31,7 +31,7 @@
                     <p:outputLabel for="rootdepid" value="Root Department:" />
                     <p:selectOneMenu id="rootdepid" value="#{departmentMBean.rootDepID}" >
                         <f:selectItem itemValue="0" itemLabel="" />
-                        <f:selectItems value="#{allObjBean.rootDepartmentList}" />
+                        <f:selectItems value="#{allObjBean.rootDepartNameList}" />
                     </p:selectOneMenu>
                     <p:outputLabel for="parenttdepid" value="Parent Department:" />
                     <p:selectOneMenu id="parenttdepid" value="#{departmentMBean.parentDepID}" >

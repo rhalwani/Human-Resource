@@ -45,7 +45,7 @@
                     </p:selectOneMenu>
                     <p:outputLabel for="dept" value="Department:" />
                     <p:selectOneMenu id="dept" value="#{employeeMBean.department}" required="true" >
-                        <f:selectItems value="#{allObjBean.departmentAndRootsList}" />
+                        <f:selectItems value="#{allObjBean.rootAndBranchDepartList}" />
                     </p:selectOneMenu>
                     <p:outputLabel for="mobile1" value="Mobile 1:" />
                     <p:inputText id="mobile1" value="#{employeeMBean.mobnum1}" />

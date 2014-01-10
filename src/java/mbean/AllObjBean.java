@@ -6,6 +6,7 @@
 package mbean;
 
 import ejb.*;
+import entity.*;
 import entity.Employee;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -32,8 +33,8 @@ public class AllObjBean implements java.io.Serializable {
 
     private Hashtable<String, Integer> employeesHTable;
     private Hashtable<String, Short> jobsHTable, departmentsHTable, personalIdsHTable, leaveTypesHTable, rootDepartHTable;
-    private List<SelectItem> departmentAndRootsList, rootDepartmentList, employeeNameList, jobTitleList, departNameList, personalIDList, leaveTypeList;
-    private List<Employee> employeeList, filteredEmployeeList;
+    private List<SelectItem> rootAndBranchDepartList, rootDepartNameList, employeeNameList, jobTitleList, departNameList, personalIDList, leaveTypeList;
+    private List<EmployeeModel> employeeList, filteredEmployeeList;
     private TabView tabView;
 
     @EJB
@@ -65,8 +66,8 @@ public class AllObjBean implements java.io.Serializable {
         departNameList = new ArrayList(departmentsHTable.size());
         
         rootDepartHTable = depEjb.getRootDepartments();
-        departmentAndRootsList = new ArrayList(rootDepartHTable.size());
-        rootDepartmentList = new ArrayList(rootDepartHTable.size());
+        rootAndBranchDepartList = new ArrayList(rootDepartHTable.size());
+        rootDepartNameList = new ArrayList(rootDepartHTable.size());
 
         employeesHTable = empEjb.getEmployeeNamesId();
         employeeNameList = new ArrayList(employeesHTable.size());
@@ -76,8 +77,6 @@ public class AllObjBean implements java.io.Serializable {
         
         leaveTypesHTable = leaveTypeEjb.getLeaveTypeHTable();
         leaveTypeList = new ArrayList(leaveTypesHTable.size());
-        
-        this.setEmployeeList(empEjb.findAll());
         
         tabView = new TabView();
         
@@ -111,7 +110,24 @@ public class AllObjBean implements java.io.Serializable {
             n = hTableIter.next();
             leaveTypeList.add(new SelectItem(leaveTypesHTable.get(n),n));
         }
-
+        
+        List<Employee> empList = empEjb.findAll();
+        employeeList = new ArrayList(empList.size());
+        for (Employee emp: empList) {
+            PersonalID perId = emp.getPersonalIDType();
+            employeeList.add(new EmployeeModel(
+                    emp.getEmpID(), emp.getFirstName()+" "+emp.getLastName(),
+                    emp.getJobID().getJobTitle(), emp.getDepID().getDepartmentName(),
+                    perId == null?null:perId.getPersonalIDDescription(),
+                    emp.getPersonalIDNum(),
+                    emp.getMobile1(),
+                    emp.getMobile2(),
+                    emp.getLandline(),
+                    emp.getEmail()
+                )
+            );
+        }
+        
         hTableIter = rootDepartHTable.keySet().iterator();
         SelectItemGroup depItemGroup;
         SelectItem[] childItems;
@@ -121,7 +137,7 @@ public class AllObjBean implements java.io.Serializable {
             n = hTableIter.next();
             departId = rootDepartHTable.get(n);
             depItemGroup = new SelectItemGroup(n);
-            rootDepartmentList.add(new SelectItem(departId,n));
+            rootDepartNameList.add(new SelectItem(departId,n));
             rootTab = new Tab();
             rootTab.setTitle(n);
             
@@ -139,7 +155,7 @@ public class AllObjBean implements java.io.Serializable {
                     childItems[i++] = new SelectItem(childDepTable.get(n),n);
                 }
                 depItemGroup.setSelectItems(childItems);
-                departmentAndRootsList.add(depItemGroup);
+                rootAndBranchDepartList.add(depItemGroup);
                 tabView.getChildren().add(rootTab);
             }
         }
@@ -185,31 +201,31 @@ public class AllObjBean implements java.io.Serializable {
         this.leaveTypeList = leaveTypeList;
     }
 
-    public List<SelectItem> getDepartmentAndRootsList() {
-        return departmentAndRootsList;
+    public List<SelectItem> getRootAndBranchDepartList() {
+        return rootAndBranchDepartList;
     }
 
-    public List<SelectItem> getRootDepartmentList() {
-        return rootDepartmentList;
+    public List<SelectItem> getRootDepartNameList() {
+        return rootDepartNameList;
     }
 
-    public void setRootDepartmentList(List<SelectItem> rootDepartmentList) {
-        this.rootDepartmentList = rootDepartmentList;
+    public void setRootDepartNameList(List<SelectItem> rootDepartNameList) {
+        this.rootDepartNameList = rootDepartNameList;
     }
     
-    public List<Employee> getEmployeeList() {
+    public List<EmployeeModel> getEmployeeList() {
         return employeeList;
     }
 
-    public void setEmployeeList(List<Employee> employeeList) {
+    public void setEmployeeList(List<EmployeeModel> employeeList) {
         this.employeeList = employeeList;
     }
 
-    public List<Employee> getFilteredEmployeeList() {
+    public List<EmployeeModel> getFilteredEmployeeList() {
         return filteredEmployeeList;
     }
 
-    public void setFilteredEmployeeList(List<Employee> filteredEmployeeList) {
+    public void setFilteredEmployeeList(List<EmployeeModel> filteredEmployeeList) {
         this.filteredEmployeeList = filteredEmployeeList;
     }
 
@@ -221,4 +237,106 @@ public class AllObjBean implements java.io.Serializable {
         this.tabView = tabView;
     }
 
+    public class EmployeeModel {
+     
+        private Integer Id;
+        private String employeeName, jobTitle, department, personalID, personIDNum,
+                mobile1, mobile2, landline, email;
+        
+        public EmployeeModel() {            
+        }
+
+        public EmployeeModel(Integer Id, String employeeName, String jobTitle, String department, String personalID, String personIDNum, String mobile1, String mobile2, String landline, String email) {
+            this.Id = Id;
+            this.employeeName = employeeName;
+            this.jobTitle = (jobTitle ==  null?"":jobTitle);
+            this.department = (department == null?"":department);
+            this.personalID = (personalID == null?"":personalID);
+            this.personIDNum = (personIDNum == null?"":personIDNum);
+            this.mobile1 = (mobile1 == null?"":mobile1);
+            this.mobile2 = (mobile2 == null?"":mobile2);
+            this.landline = (landline == null?"":landline);
+            this.email = (email == null?"":email);
+        }
+
+        public Integer getId() {
+            return Id;
+        }
+
+        public void setId(Integer Id) {
+            this.Id = Id;
+        }
+
+        public String getEmployeeName() {
+            return employeeName;
+        }
+
+        public void setEmployeeName(String employeeName) {
+            this.employeeName = employeeName;
+        }
+
+        public String getJobTitle() {
+            return jobTitle;
+        }
+
+        public void setJobTitle(String jobTitle) {
+            this.jobTitle = jobTitle;
+        }
+
+        public String getDepartment() {
+            return department;
+        }
+
+        public void setDepartment(String department) {
+            this.department = department;
+        }
+
+        public String getPersonalID() {
+            return personalID;
+        }
+
+        public void setPersonalID(String personalID) {
+            this.personalID = personalID;
+        }
+
+        public String getPersonIDNum() {
+            return personIDNum;
+        }
+
+        public void setPersonIDNum(String personIDNum) {
+            this.personIDNum = personIDNum;
+        }
+
+        public String getMobile1() {
+            return mobile1;
+        }
+
+        public void setMobile1(String mobile1) {
+            this.mobile1 = mobile1;
+        }
+
+        public String getMobile2() {
+            return mobile2;
+        }
+
+        public void setMobile2(String mobile2) {
+            this.mobile2 = mobile2;
+        }
+
+        public String getLandline() {
+            return landline;
+        }
+
+        public void setLandline(String landline) {
+            this.landline = landline;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }        
+    }
 }

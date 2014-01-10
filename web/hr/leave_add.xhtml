@@ -5,54 +5,42 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>New Employee</title>
+        <title>New Leave Request</title>
     </h:head>
     <h:body style="background-color: cornsilk;">
         <h:form id="logoutform" style="padding-left: 95%;" >
             <h:commandButton id="logoutButton" value="Logout" action="#{loginMBean.closeSession()}" type="submit"/>
         </h:form>
+        <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
         <p:spacer height="20px;" />
 
         <h:form id="navform" prependId="false">
-            <p:panelGrid columns="3">
+            <p:panelGrid columns="2">
                 <p:commandLink value="Home" action="index" />
                 <p:commandLink value="Leaves Home" action="employee_index" />
-                <p:commandLink value="View Employees" action="employee_view" />
             </p:panelGrid>
         </h:form>
         <p:spacer height="30px;" />
         <h:form id="newform" prependId="false" style="padding-left: 30%;">
-            <!--p:growl id="messages" showDetail="true" /-->
-            <p:panel header="New Employee" style="width: 400px;" id="inputpanel">
+            <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
+            <p:panel header="New Employee Leave" style="width: 400px;" id="inputpanel">
                 <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
                 <p:panelGrid columns="2" id="grid">
-                    <p:outputLabel for="firstname" value="Name:" />
-                    <p:inputText id="firstname" value="#{employeeMBean.firstName}" required="true" />
-                    <p:outputLabel for="midname" value="Middle Name:" />
-                    <p:inputText id="midname" value="#{employeeMBean.midName}" />
-                    <p:outputLabel for="surname" value="Surname:" />
-                    <p:inputText id="surname" value="#{employeeMBean.surname}" required="true" />
-                    <p:outputLabel for="job" value="Job:" />
-                    <p:selectOneMenu id="job" value="#{employeeMBean.job}" required="true" >
-                        <!--<f:selectItem itemLabel="Select One" itemValue="" />--> 
-                        <f:selectItems value="#{allObjBean.jobTitleList}" />
+                    <p:outputLabel for="employee" value="Employee:" />
+                    <p:selectOneMenu id="employee" value="#{leaveMBean.employeeId}" required="true">
+                        <f:selectItems value="#{allObjBean.employeeNameList}" />
                     </p:selectOneMenu>
-                    <p:outputLabel for="dept" value="Department:" />
-                    <p:selectOneMenu id="dept" value="#{employeeMBean.department}" required="true" >
-                        <!--<f:selectItem itemLabel="Select One" itemValue="" />--> 
-                        <f:selectItems value="#{allObjBean.departNameList}" />
+                    <p:outputLabel for="leavetype" value="Leave Type:" />
+                    <p:selectOneMenu id="leavetype" value="#{leaveMBean.leaveType}" >
+                        <f:selectItems value="#{allObjBean.leaveTypeList}" />
                     </p:selectOneMenu>
-                    <p:outputLabel for="mobile1" value="Mobile 1:" />
-                    <p:inputText id="mobile1" value="#{employeeMBean.mobnum1}" />
-                    <p:outputLabel for="mobile2" value="Mobile 2:" />
-                    <p:inputText id="mobile2" value="#{employeeMBean.mobnum2}" />
-                    <p:outputLabel for="landline" value="Landline:" />
-                    <p:inputText id="landline" value="#{employeeMBean.landline}" />
-                    <p:outputLabel for="email" value="Email:" />
-                    <p:inputText id="email" value="#{employeeMBean.email}" />
+                    <p:outputLabel for="startdt" value="Start Date:" />
+                    <p:calendar id="startdt"  value="#{leaveMBean.startDate}"/>
+                    <p:outputLabel for="enddt" value="End Date:" />
+                    <p:calendar id="enddt"  value="#{leaveMBean.endDate}"/>
                     <f:facet name="footer">
                         <p:panelGrid columns="2">
-                            <p:commandButton value="Add Employee" actionListener="#{employeeMBean.addNewEmployee()}" update="grid"/>
+                            <p:commandButton value="Add Leave" actionListener="#{leaveMBean.addLeave()}" update="grid"/>
                             <p:commandButton value="Reset" update="newform" process="@this">
                                 <p:resetInput target="newform" />
                             </p:commandButton>
