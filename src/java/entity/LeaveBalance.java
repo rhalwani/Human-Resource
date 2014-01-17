@@ -31,18 +31,18 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "LeaveBalance.findByLeaveTypeID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.leaveTypeID = :leaveTypeID"),
     @NamedQuery(name = "LeaveBalance.findByDaysBal", query = "SELECT l FROM LeaveBalance l WHERE l.daysBal = :daysBal"),
     @NamedQuery(name = "LeaveBalance.findByTicketsBal", query = "SELECT l FROM LeaveBalance l WHERE l.ticketsBal = :ticketsBal"),
-    @NamedQuery(name = "LeaveBalance.findAvailableByEmpID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and expired = false"),
-    @NamedQuery(name = "LeaveBalance.findExpiredByEmpID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and expired = true"),
-    @NamedQuery(name = "LeaveBalance.findAvailableByYear", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.year = :year and expired = false"),
-    @NamedQuery(name = "LeaveBalance.findExpiredByYear", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.year = :year and expired = true"),
-    @NamedQuery(name = "LeaveBalance.findAvailableByLeaveTypeID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.leaveTypeID = :leaveTypeID and expired = false"),
-    @NamedQuery(name = "LeaveBalance.findExpiredByLeaveTypeID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.leaveTypeID = :leaveTypeID and expired = true"),
-    @NamedQuery(name = "LeaveBalance.findAvailableByDaysBal", query = "SELECT l FROM LeaveBalance l WHERE l.daysBal = :daysBal and expired = false"),
-    @NamedQuery(name = "LeaveBalance.findExpiredByDaysBal", query = "SELECT l FROM LeaveBalance l WHERE l.daysBal = :daysBal and expired = true"),
-    @NamedQuery(name = "LeaveBalance.findAvailableByTicketsBal", query = "SELECT l FROM LeaveBalance l WHERE l.ticketsBal = :ticketsBal and expired = false"),
-    @NamedQuery(name = "LeaveBalance.findAvailableByTicketsBal", query = "SELECT l FROM LeaveBalance l WHERE l.ticketsBal = :ticketsBal and expired = true"),
-    @NamedQuery(name = "LeaveBalance.findAvailByEmpIDandLeaveType", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and l.leaveBalancePK.leaveTypeID = :leaveTypeID and expired = false and l.daysBal > 0 order by l.leaveBalancePK.year"),
-    @NamedQuery(name = "LeaveBalance.findExpiredByEmpIDandLeaveType", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and l.leaveBalancePK.leaveTypeID = :leaveTypeID and expired = true")
+    @NamedQuery(name = "LeaveBalance.findAvailableByEmpID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and l.expired = false"),
+    @NamedQuery(name = "LeaveBalance.findExpiredByEmpID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and l.expired = true"),
+    @NamedQuery(name = "LeaveBalance.findAvailableByYear", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.year = :year and l.expired = false"),
+    @NamedQuery(name = "LeaveBalance.findExpiredByYear", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.year = :year and l.expired = true"),
+    @NamedQuery(name = "LeaveBalance.findAvailableByLeaveTypeID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.leaveTypeID = :leaveTypeID and l.expired = false"),
+    @NamedQuery(name = "LeaveBalance.findExpiredByLeaveTypeID", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.leaveTypeID = :leaveTypeID and l.expired = true"),
+    @NamedQuery(name = "LeaveBalance.findAvailableByDaysBal", query = "SELECT l FROM LeaveBalance l WHERE l.daysBal = :daysBal and l.expired = false"),
+    @NamedQuery(name = "LeaveBalance.findExpiredByDaysBal", query = "SELECT l FROM LeaveBalance l WHERE l.daysBal = :daysBal and l.expired = true"),
+    @NamedQuery(name = "LeaveBalance.findAvailableByTicketsBal", query = "SELECT l FROM LeaveBalance l WHERE l.ticketsBal = :ticketsBal and l.expired = false"),
+    @NamedQuery(name = "LeaveBalance.findExpiredByTicketsBal", query = "SELECT l FROM LeaveBalance l WHERE l.ticketsBal = :ticketsBal and l.expired = true"),
+    @NamedQuery(name = "LeaveBalance.findAvailByEmpIDandLeaveType", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and l.leaveBalancePK.leaveTypeID = :leaveTypeID and l.expired = false and l.daysBal > 0 order by l.leaveBalancePK.year"),
+    @NamedQuery(name = "LeaveBalance.findExpiredByEmpIDandLeaveType", query = "SELECT l FROM LeaveBalance l WHERE l.leaveBalancePK.empID = :empID and l.leaveBalancePK.leaveTypeID = :leaveTypeID and l.expired = true")
 })
 public class LeaveBalance implements Serializable {
     @Basic(optional = false)

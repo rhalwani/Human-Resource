@@ -11,6 +11,8 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,9 +33,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "PersonalID.findByPersonalIDDescription", query = "SELECT p FROM PersonalID p WHERE p.personalIDDescription = :personalIDDescription")})
 public class PersonalID implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Basic(optional = false)
+    //@NotNull
     @Column(name = "Personal_ID_Type")
     private Short personalIDType;
     @Basic(optional = false)

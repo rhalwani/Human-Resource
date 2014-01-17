@@ -9,8 +9,8 @@
     </h:head>
     <h:body style="background-color: cornsilk;">
         <p:spacer height="95 px;" />
-        <p:panel header="Africell HR Management Login" style="">
-            <form method="POST" action="j_security_check">
+        <form method="POST" action="j_security_check" style="padding-left: 40%">
+            <p:panel header="Africell HR Management Login" style="width: 400px; text-indent: 7%;">
                 <p:panelGrid columns="2" >
                     <h:outputText value="Username:"/>  <input type="text" name="j_username" />
                     <h:outputText value="Password:"/> <input type="password" name="j_password" />
@@ -19,7 +19,7 @@
                         <input type="reset" name="submit" value="Reset" />
                     </f:facet>
                 </p:panelGrid>
-            </form>
-        </p:panel>
+            </p:panel>
+        </form>
     </h:body>
 </html>

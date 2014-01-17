@@ -42,9 +42,14 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Employee.findByLandline", query = "SELECT e FROM Employee e WHERE e.landline = :landline"),
     @NamedQuery(name = "Employee.findByEmail", query = "SELECT e FROM Employee e WHERE e.email = :email")})
 public class Employee implements Serializable {
-    @JoinColumn(name = "Personal_ID_Type", referencedColumnName = "Personal_ID_Type")
+    @OneToMany(mappedBy = "mgrID")
+    private Collection<Department> departmentCollection;
+    @JoinColumn(name = "Dep_ID", referencedColumnName = "Dep_ID")
     @ManyToOne
-    private PersonalID personalIDType;
+    private Department depID;
+    @JoinColumn(name = "Job_ID", referencedColumnName = "Job_ID")
+    @ManyToOne
+    private Job jobID;
     private static final long serialVersionUID = 1L;
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     //@Basic(optional = false)
@@ -80,20 +85,13 @@ public class Employee implements Serializable {
     @Size(max = 50)
     @Column(name = "Email")
     private String email;
-    @OneToMany(mappedBy = "approvedBy")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "empID")
     private Collection<Leave> leaveCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    @OneToMany(mappedBy = "approvedBy")
     private Collection<Leave> leaveCollection1;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
-    private Collection<LeaveBalance> leaveBalanceCollection;
-    @OneToMany(mappedBy = "mgrID")
-    private Collection<Department> departmentCollection;
-    @JoinColumn(name = "Job_ID", referencedColumnName = "Job_ID")
+    @JoinColumn(name = "Personal_ID_Type", referencedColumnName = "Personal_ID_Type")
     @ManyToOne
-    private Job jobID;
-    @JoinColumn(name = "Dep_ID", referencedColumnName = "Dep_ID")
-    @ManyToOne
-    private Department depID;
+    private PersonalID personalIDType;
 
     public Employee() {
     }
@@ -196,36 +194,12 @@ public class Employee implements Serializable {
         this.leaveCollection1 = leaveCollection1;
     }
 
-    public Collection<LeaveBalance> getLeaveBalanceCollection() {
-        return leaveBalanceCollection;
+    public PersonalID getPersonalIDType() {
+        return personalIDType;
     }
 
-    public void setLeaveBalanceCollection(Collection<LeaveBalance> leaveBalanceCollection) {
-        this.leaveBalanceCollection = leaveBalanceCollection;
-    }
-
-    public Collection<Department> getDepartmentCollection() {
-        return departmentCollection;
-    }
-
-    public void setDepartmentCollection(Collection<Department> departmentCollection) {
-        this.departmentCollection = departmentCollection;
-    }
-
-    public Job getJobID() {
-        return jobID;
-    }
-
-    public void setJobID(Job jobID) {
-        this.jobID = jobID;
-    }
-
-    public Department getDepID() {
-        return depID;
-    }
-
-    public void setDepID(Department depID) {
-        this.depID = depID;
+    public void setPersonalIDType(PersonalID personalIDType) {
+        this.personalIDType = personalIDType;
     }
 
     @Override
@@ -253,12 +227,28 @@ public class Employee implements Serializable {
         return "entity.Employee[ empID=" + empID + " ]";
     }
 
-    public PersonalID getPersonalIDType() {
-        return personalIDType;
+    public Job getJobID() {
+        return jobID;
     }
 
-    public void setPersonalIDType(PersonalID personalIDType) {
-        this.personalIDType = personalIDType;
+    public void setJobID(Job jobID) {
+        this.jobID = jobID;
+    }
+
+    public Collection<Department> getDepartmentCollection() {
+        return departmentCollection;
+    }
+
+    public void setDepartmentCollection(Collection<Department> departmentCollection) {
+        this.departmentCollection = departmentCollection;
+    }
+
+    public Department getDepID() {
+        return depID;
+    }
+
+    public void setDepID(Department depID) {
+        this.depID = depID;
     }
     
 }

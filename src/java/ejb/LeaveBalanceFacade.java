@@ -8,7 +8,7 @@ package ejb;
 
 import entity.LeaveBalance;
 import entity.LeaveBalancePK;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -34,13 +34,13 @@ public class LeaveBalanceFacade extends AbstractFacade<LeaveBalance> {
         super(LeaveBalance.class);
     }
     
-    public HashMap<Integer, Integer> getDaysBalance(Integer employeeId, Short leaveTypeId) {
+    public LinkedHashMap<Integer, Integer> getDaysBalance(Integer employeeId, Short leaveTypeId) {
         TypedQuery query = em.createNamedQuery("LeaveBalance.findAvailByEmpIDandLeaveType", LeaveBalanceFacade.class);
         query.setParameter("empID", employeeId);
         query.setParameter("leaveTypeID", leaveTypeId);
         List<LeaveBalance> leaveBalList = query.getResultList();
-        
-        HashMap<Integer, Integer> yearsBalance = new HashMap(leaveBalList.size());
+        System.out.println("List Size = "+leaveBalList.size());
+        LinkedHashMap<Integer, Integer> yearsBalance = new LinkedHashMap(leaveBalList.size());
         
         for(LeaveBalance leaveBal: leaveBalList) {
             yearsBalance.put(leaveBal.getLeaveBalancePK().getYear(), leaveBal.getDaysBal());
@@ -49,13 +49,13 @@ public class LeaveBalanceFacade extends AbstractFacade<LeaveBalance> {
         return yearsBalance;
     }
     
-    public HashMap<Integer, Integer> getTicketsBalance(Integer employeeId, Short leaveTypeId) {
+    public LinkedHashMap<Integer, Integer> getTicketsBalance(Integer employeeId, Short leaveTypeId) {
         TypedQuery query = em.createNamedQuery("LeaveBalance.findAvailByEmpIDandLeaveType", LeaveBalanceFacade.class);
         query.setParameter("empID", employeeId);
         query.setParameter("leaveTypeID", leaveTypeId);
         List<LeaveBalance> leaveBalList = query.getResultList();
         
-        HashMap<Integer, Integer> yearsBalance = new HashMap(leaveBalList.size());
+        LinkedHashMap<Integer, Integer> yearsBalance = new LinkedHashMap(leaveBalList.size());
         
         for(LeaveBalance leaveBal: leaveBalList) {
             yearsBalance.put(leaveBal.getLeaveBalancePK().getYear(), leaveBal.getTicketsBal());
@@ -63,8 +63,29 @@ public class LeaveBalanceFacade extends AbstractFacade<LeaveBalance> {
         
         return yearsBalance;
     }
-    /*
-    public void updateBalance(Integer employeeId, Integer leaveYear, Short leaveType) {
-        LeaveBalance lb = this.find(new LeaveBalancePK())
-    }*/
+    
+    public LinkedHashMap<Integer, int[]> getDaysAndTicketsBalance (Integer employeeId, Short leaveTypeId) {
+        TypedQuery query = em.createNamedQuery("LeaveBalance.findAvailByEmpIDandLeaveType", LeaveBalanceFacade.class);
+        query.setParameter("empID", employeeId);
+        query.setParameter("leaveTypeID", leaveTypeId);
+        List<LeaveBalance> leaveBalList = query.getResultList();
+        
+        LinkedHashMap<Integer, int[]> resBalance = new LinkedHashMap(leaveBalList.size());
+        
+        for(LeaveBalance leaveBal: leaveBalList) {
+            int[] yearAndTicket = new int[2];
+            yearAndTicket[0] = leaveBal.getDaysBal(); //index 0 contains the days
+            yearAndTicket[1] = leaveBal.getTicketsBal().intValue(); //index 1 contains the tickets
+            resBalance.put(leaveBal.getLeaveBalancePK().getYear(), yearAndTicket);
+        }
+        
+        return resBalance;
+    }
+    
+    public void updateBalance(int employeeId, int leaveYear, short leaveType, int newDaysBal, int newTicketsBal) {
+        LeaveBalance lb = this.find(new LeaveBalancePK(employeeId, leaveYear, leaveType));
+        lb.setDaysBal(newDaysBal);
+        lb.setTicketsBal(newTicketsBal);
+        em.merge(lb);
+    }
 }

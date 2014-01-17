@@ -16,8 +16,8 @@ import javax.faces.bean.ManagedBean;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.ejb.PostActivate;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.faces.model.SelectItemGroup;
 import org.primefaces.component.tabview.TabView;
@@ -36,6 +36,8 @@ public class AllObjBean implements java.io.Serializable {
     private List<SelectItem> rootAndBranchDepartList, rootDepartNameList, employeeNameList, jobTitleList, departNameList, personalIDList, leaveTypeList;
     private List<EmployeeModel> employeeList, filteredEmployeeList;
     private TabView tabView;
+    
+    private int empId;
 
     @EJB
     private EmployeeFacade empEjb;
@@ -55,7 +57,6 @@ public class AllObjBean implements java.io.Serializable {
     }
     
 
-    @PostActivate
     @PostConstruct
     private void populateObjectLists() {
 
@@ -161,6 +162,14 @@ public class AllObjBean implements java.io.Serializable {
         }
     }
 
+    public int getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(int empId) {
+        this.empId = empId;
+    }
+
     public List<SelectItem> getEmployeeNameList() {
         return employeeNameList;
     }
@@ -236,7 +245,12 @@ public class AllObjBean implements java.io.Serializable {
     public void setTabView(TabView tabView) {
         this.tabView = tabView;
     }
-
+    
+    public void selectedEmployeeChanged(ValueChangeEvent vce) {
+        System.out.println("Employee Selected: "+vce.getNewValue().toString());
+                //.getNewValue().toString());
+    }
+    
     public class EmployeeModel {
      
         private Integer Id;

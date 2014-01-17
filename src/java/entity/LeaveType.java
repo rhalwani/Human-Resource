@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -31,10 +33,12 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "LeaveType.findByLeaveTypeID", query = "SELECT l FROM LeaveType l WHERE l.leaveTypeID = :leaveTypeID"),
     @NamedQuery(name = "LeaveType.findByLeaveDescription", query = "SELECT l FROM LeaveType l WHERE l.leaveDescription = :leaveDescription")})
 public class LeaveType implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "leaveTypeID")
+    private Collection<Leave> leaveCollection;
     private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@Basic(optional = false)
+    //@NotNull
     @Column(name = "Leave_Type_ID")
     private Short leaveTypeID;
     @Basic(optional = false)
@@ -42,10 +46,6 @@ public class LeaveType implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "Leave_Description")
     private String leaveDescription;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "leaveTypeID")
-    private Collection<Leave> leaveCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "leaveType")
-    private Collection<LeaveBalance> leaveBalanceCollection;
 
     public LeaveType() {
     }
@@ -75,22 +75,6 @@ public class LeaveType implements Serializable {
         this.leaveDescription = leaveDescription;
     }
 
-    public Collection<Leave> getLeaveCollection() {
-        return leaveCollection;
-    }
-
-    public void setLeaveCollection(Collection<Leave> leaveCollection) {
-        this.leaveCollection = leaveCollection;
-    }
-
-    public Collection<LeaveBalance> getLeaveBalanceCollection() {
-        return leaveBalanceCollection;
-    }
-
-    public void setLeaveBalanceCollection(Collection<LeaveBalance> leaveBalanceCollection) {
-        this.leaveBalanceCollection = leaveBalanceCollection;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -114,6 +98,14 @@ public class LeaveType implements Serializable {
     @Override
     public String toString() {
         return "entity.LeaveType[ leaveTypeID=" + leaveTypeID + " ]";
+    }
+
+    public Collection<Leave> getLeaveCollection() {
+        return leaveCollection;
+    }
+
+    public void setLeaveCollection(Collection<Leave> leaveCollection) {
+        this.leaveCollection = leaveCollection;
     }
     
 }
