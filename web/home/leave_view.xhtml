@@ -12,7 +12,133 @@
             <h:commandButton id="logoutButton" action="#{loginMBean.closeSession()}" type="submit" value="Logout"/>
         </h:form>
         <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
-        <h1 style="padding-left: 38%; color: burlywood; font-family: 'Helvetica'; font-weight: bolder">Taken Leaves</h1>
+        <h1 style="padding-left: 45%; color: burlywood; font-family: 'Helvetica'; font-weight: bolder">Taken Leaves</h1>
+        <p:spacer height="5 px;" />
+        <h:form id="navform" prependId="false" style="padding-left: 40%">
+            <p:panelGrid columns="3">
+                <p:commandLink value="Home" action="/home/index?faces-redirect=true" />
+                <p:commandLink value="Leaves Home" action="/home/leave_index?faces-redirect=true" />
+                <p:commandLink value="Scheduled Leaves" action="/home/leave_sched_view?faces-redirect=true" />
+            </p:panelGrid>
+        </h:form>
+
+        <p:spacer height="5 px;" />
+
+        <h:form prependId="searchform" >
+            <p:panelGrid style="margin-left: 27%;">
+                <f:facet name="header">
+                    <p:row>
+                        <p:column colspan="3" style="text-align: center">Search Criteria</p:column>
+                    </p:row>
+                </f:facet>
+                <p:row>
+                    <p:column style="text-align: center; font-weight: bold;">Employee</p:column>
+                    <p:column style="text-align: center; font-weight: bold;">Department</p:column>
+                    <p:column style="text-align: center; font-weight: bold;">Leave Type</p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:selectOneMenu id="employee" value="#{leaveMBean.employeeId}">
+                            <f:selectItem itemValue="" itemLabel="" itemDisabled="true"  noSelectionOption="true" />
+                            <f:selectItems value="#{allObjBean.employeeNameList}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="dept" value="#{leaveMBean.departmentId}">
+                            <f:selectItem itemValue="" itemLabel="" itemDisabled="true"  noSelectionOption="true" />
+                            <f:selectItems value="#{allObjBean.rootAndBranchDepartList}" />
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu id="leavetype" value="#{leaveMBean.leaveType}">
+                            <f:selectItem itemValue="" itemLabel="" itemDisabled="true"  noSelectionOption="true" />
+                            <f:selectItems value="#{allObjBean.leaveTypeList}" />
+                        </p:selectOneMenu>
+                    </p:column>                        
+                </p:row>
+                <f:facet name="footer">
+                    <p:row>
+                        <p:column colspan="4" style="padding-left: 42%;">
+                            <p:commandButton id="searchbtn" value="Search" actionListener="#{leaveMBean.searchLeave}" update="leavedata"/> 
+                        </p:column>
+                    </p:row>
+                </f:facet>
+            </p:panelGrid>
+
+
+            <p:spacer height="15 px;" />
+
+            <p:dataTable id="leavedata" var="leave" value="#{leaveMBean.leaveModel}">
+                <p:column style="width: 2%;">
+                    <p:rowToggler />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Leave Type
+                    </f:facet>
+                    <h:outputText value="#{leave.leaveType}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Employee
+                    </f:facet>
+                    <h:outputText value="#{leave.employee}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Start
+                    </f:facet>
+                    <h:outputText value="#{leave.stdate}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        End
+                    </f:facet>
+                    <h:outputText value="#{leave.edate}" />
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        Approved By
+                    </f:facet>
+                    <h:outputText value="#{leave.approve}" />
+                </p:column>
+
+                <p:rowExpansion>
+                    <p:dataTable id="leavedetdata" var="lvdet" value="#{leave.leaveDetailsList}">
+                        <p:column>
+                            <f:facet name="header">
+                                Year
+                            </f:facet>
+                            <h:outputText value="#{lvdet.leaveYear}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Beginning Days Balance
+                            </f:facet>
+                            <h:outputText value="#{lvdet.daysStartBal}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Ending Days Balance
+                            </f:facet>                            
+                            <h:outputText value="#{lvdet.daysEndBal}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Beginning Tickets Balance
+                            </f:facet>
+                            <h:outputText value="#{lvdet.ticketsStartBal}" />
+                        </p:column>
+                        <p:column>
+                            <f:facet name="header">
+                                Ending Tickets Balance
+                            </f:facet>
+                            <h:outputText value="#{lvdet.ticketsEndBal}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
     </h:body>
 </html>
 

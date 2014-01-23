@@ -14,39 +14,42 @@
         <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
         <p:spacer height="20px;" />
 
-        <h:form id="navform" prependId="false">
-            <p:panelGrid columns="2">
-                <p:commandLink value="Home" action="index" />
-                <p:commandLink value="Leaves Home" action="employee_index" />
+        <h:form id="navform" prependId="false" style="padding-left: 40%">
+            <p:panelGrid columns="3">
+                <p:commandLink value="Home" action="/home/index?faces-redirect=true" />
+                <p:commandLink value="Leaves Home" action="/home/leave_index?faces-redirect=true" />
+                <p:commandLink value="View Leaves" action="/home/leave_view?faces-redirect=true" />
             </p:panelGrid>
         </h:form>
         <p:spacer height="30px;" />
-        <h:form id="newform" prependId="false" style="padding-left: 30%;">
+        <h:form id="newform" prependId="false" style="padding-left: 35%;">
             <p:panel header="New Employee Leave" style="width: 450px;" id="inputpanel">
                 <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
                 <p:panelGrid columns="2" id="grid">
                     <p:outputLabel for="employee" value="Employee:" />
                     <p:selectOneMenu id="employee"
+                                     required="true"
                                      value="#{leaveMBean.employeeId}"
                                      valueChangeListener="#{leaveMBean.selectedEmployeeChanged}" >
                         <p:ajax event="change" update="availablepanel"/>
-                        <f:selectItem itemLabel="" itemValue="0" itemDisabled="false" noSelectionOption="true" />
+                        <f:selectItem itemLabel="" itemValue="0" itemDisabled="true" />
                         <f:selectItems value="#{allObjBean.employeeNameList}" />
                     </p:selectOneMenu>
                     <p:outputLabel for="leavetype" value="Leave Type:" />
                     <p:selectOneMenu id="leavetype"
+                                     required="true"
                                      value="#{leaveMBean.leaveType}"
                                      valueChangeListener="#{leaveMBean.selectedLeaveTypeChanged}" >
                         <p:ajax event="change" update="availablepanel"/>
-                        <f:selectItem itemLabel="" itemValue="0" itemDisabled="false" noSelectionOption="true"/>
+                        <f:selectItem itemLabel="" itemValue="0" itemDisabled="true" />
                         <f:selectItems value="#{allObjBean.leaveTypeList}" />
                     </p:selectOneMenu>
                     <p:outputLabel for="startdt" value="Start Date:" />
-                    <p:calendar id="startdt"  value="#{leaveMBean.startDate}" >
+                    <p:calendar id="startdt"  value="#{leaveMBean.startDate}" required="true">
                         <p:ajax event="dateSelect" listener="#{leaveMBean.startDateChanged}" update="availablepanel addbtn"/>
                     </p:calendar>
                     <p:outputLabel for="enddt" value="End Date:" />
-                    <p:calendar id="enddt"  value="#{leaveMBean.endDate}">
+                    <p:calendar id="enddt" value="#{leaveMBean.endDate}" required="true">
                         <p:ajax event="dateSelect" listener="#{leaveMBean.endDateChanged}" update="availablepanel addbtn"/>
                     </p:calendar>
                     <p:outputLabel for="ticket" value="Tickets" />
@@ -65,7 +68,7 @@
                 </p:panelGrid>
             </p:panel>
             <p:spacer height="10 px;" />
-            <p:panel header="Balance" style="width: 370px; text-align: center;">
+            <p:panel header="Balance" style="width: 350px; text-align: center;">
                 <p:panelGrid id="availablepanel">
                     <f:facet name="header" >
                         <p:row>

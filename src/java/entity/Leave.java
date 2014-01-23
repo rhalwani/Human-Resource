@@ -33,7 +33,9 @@ import javax.validation.constraints.NotNull;
     @NamedQuery(name = "Leave.findAll", query = "SELECT l FROM Leave l"),
     @NamedQuery(name = "Leave.findByLeaveID", query = "SELECT l FROM Leave l WHERE l.leaveID = :leaveID"),
     @NamedQuery(name = "Leave.findByStartDate", query = "SELECT l FROM Leave l WHERE l.startDate = :startDate"),
-    @NamedQuery(name = "Leave.findByEndDate", query = "SELECT l FROM Leave l WHERE l.endDate = :endDate")})
+    @NamedQuery(name = "Leave.findByEndDate", query = "SELECT l FROM Leave l WHERE l.endDate = :endDate"),
+    @NamedQuery(name = "Leave.findByEmployee", query = "SELECT l FROM Leave l WHERE l.empID = :empID")
+})
 public class Leave implements Serializable {
     @JoinColumn(name = "Leave_Type_ID", referencedColumnName = "Leave_Type_ID")
     @ManyToOne(optional = false)
