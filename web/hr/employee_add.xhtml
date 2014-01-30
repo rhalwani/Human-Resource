@@ -8,13 +8,13 @@
         <title>New Employee</title>
     </h:head>
     <h:body style="background-color: cornsilk;">
-        <h:form id="logoutform" style="padding-left: 95%;" >
+        <h:form id="logoutform" style="margin-left: 95%;" >
             <h:commandButton id="logoutButton" value="Logout" action="#{loginMBean.closeSession()}" type="submit"/>
         </h:form>
         <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
         <p:spacer height="20px;" />
 
-        <h:form id="navform" prependId="false" style="padding-left: 40%">
+        <h:form id="navform" prependId="false" style="margin-left: 40%">
             <p:panelGrid columns="3">
                 <p:commandLink value="Home" action="/home/index?faces-redirect=true" />
                 <p:commandLink value="Employees Home" action="/home/employee_index?faces-redirect=true" />
@@ -22,8 +22,8 @@
             </p:panelGrid>
         </h:form>
         <p:spacer height="30px;" />
-        <h:form id="newform" prependId="false" style="padding-left: 38%;">
-            <p:panel header="New Employee" style="width: 525px;" id="inputpanel">
+        <h:form id="newform" prependId="false" style="margin-left: 30%;">
+            <p:panel header="New Employee" style="width: 665px;" id="inputpanel">
                 <p:messages id="msgs" showDetail="true" autoUpdate="true" closable="true"/>
                 <p:panelGrid columns="2" id="grid">
                     <p:outputLabel for="firstname" value="Name:" />
@@ -43,10 +43,17 @@
                     <p:selectOneMenu id="job" value="#{employeeMBean.job}" required="true" >
                         <f:selectItems value="#{allObjBean.jobTitleList}" />
                     </p:selectOneMenu>
-                    <p:outputLabel for="dept" value="Department:" />
-                    <p:selectOneMenu id="dept" value="#{employeeMBean.department}" required="true" >
-                        <f:selectItems value="#{allObjBean.rootAndBranchDepartList}" />
-                    </p:selectOneMenu>
+                    <p:outputLabel for="depts" value="Department:" />
+                    <h:panelGroup>
+                        <p:selectBooleanCheckbox id="rootdephd" style="font-size: x-small; padding-left: 5%" itemLabel="Root Department Head" value="#{allObjBean.deptCheckBoxSelected}" valueChangeListener="#{allObjBean.rootDepHeadCheckBoxSelected}">
+                            <p:ajax event="change" update="depts" />
+                        </p:selectBooleanCheckbox>
+                        <br />
+                        <p:selectOneMenu id="depts" value="#{employeeMBean.department}" required="true" >
+                            <f:selectItem itemValue="0" itemLabel="" />
+                            <f:selectItems value="#{allObjBean.toggledDepartList}" />
+                        </p:selectOneMenu>
+                    </h:panelGroup>
                     <p:outputLabel for="mobile1" value="Mobile 1:" />
                     <p:inputText id="mobile1" value="#{employeeMBean.mobnum1}" />
                     <p:outputLabel for="mobile2" value="Mobile 2:" />

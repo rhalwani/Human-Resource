@@ -12,6 +12,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -31,10 +32,10 @@ public class JobFacade extends AbstractFacade<Job> {
         super(Job.class);
     }
     
-    public Hashtable<String, Short> getJobTitleIdHTable() {
+    public LinkedHashMap<String, Short> getJobTitleIdHTable() {
         
         List<Job> jobList = this.findAll();
-        Hashtable jobTitleIdHTable = new Hashtable(jobList.size());
+        LinkedHashMap jobTitleIdHTable = new LinkedHashMap(jobList.size());
         for (Job job: jobList) {
             jobTitleIdHTable.put(job.getJobTitle(), job.getJobID());
         }

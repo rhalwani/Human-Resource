@@ -10,6 +10,7 @@ import entity.*;
 import entity.Employee;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
@@ -31,13 +32,14 @@ import org.primefaces.component.tabview.Tab;
 @ViewScoped
 public class AllObjBean implements java.io.Serializable {
 
-    private Hashtable<String, Integer> employeesHTable;
-    private Hashtable<String, Short> jobsHTable, departmentsHTable, personalIdsHTable, leaveTypesHTable, rootDepartHTable;
-    private List<SelectItem> rootAndBranchDepartList, rootDepartNameList, employeeNameList, jobTitleList, departNameList, personalIDList, leaveTypeList;
+    private LinkedHashMap<String, Integer> employeesHTable;
+    private LinkedHashMap<String, Short> jobsHTable, departmentsHTable, personalIdsHTable, leaveTypesHTable, rootDepartHTable;
+    private List<SelectItem> rootAndBranchDepartList, rootDepartNameList, departNameList, toggledDepartList, employeeNameList, jobTitleList, personalIDList, leaveTypeList;
     private List<EmployeeModel> employeeList, filteredEmployeeList;
     private TabView tabView;
     
     private int empId;
+    private boolean deptCheckBoxSelected;
 
     @EJB
     private EmployeeFacade empEjb;
@@ -142,17 +144,15 @@ public class AllObjBean implements java.io.Serializable {
             rootTab = new Tab();
             rootTab.setTitle(n);
             
-            Hashtable<String, Short> childDepTable = depEjb.getChildDepartments(departId);
+            LinkedHashMap<String, Short> childDepTable = depEjb.getChildDepartments(departId);
             
             if (childDepTable.size() > 0) {
-                //System.out.println(n+" has children");
                 Set<String> departNameSet = childDepTable.keySet();
                 int i = 0;
                 childItems = new SelectItem[departNameSet.size()];
                 Iterator<String> childDepIter = departNameSet.iterator();
                 while(childDepIter.hasNext()) {
                     n = childDepIter.next();
-                    //System.out.println("\t"+childDepTable.get(n)+" - "+n);
                     childItems[i++] = new SelectItem(childDepTable.get(n),n);
                 }
                 depItemGroup.setSelectItems(childItems);
@@ -160,6 +160,7 @@ public class AllObjBean implements java.io.Serializable {
                 tabView.getChildren().add(rootTab);
             }
         }
+        toggledDepartList = rootAndBranchDepartList;
     }
 
     public int getEmpId() {
@@ -245,10 +246,29 @@ public class AllObjBean implements java.io.Serializable {
     public void setTabView(TabView tabView) {
         this.tabView = tabView;
     }
+
+    public List<SelectItem> getToggledDepartList() {
+        return toggledDepartList;
+    }
+
+    public void setToggledDepartList(List<SelectItem> toggledDepartList) {
+        this.toggledDepartList = toggledDepartList;
+    }
     
-    public void selectedEmployeeChanged(ValueChangeEvent vce) {
-        System.out.println("Employee Selected: "+vce.getNewValue().toString());
-                //.getNewValue().toString());
+    public boolean isDeptCheckBoxSelected() {
+        return deptCheckBoxSelected;
+    }
+
+    public void setDeptCheckBoxSelected(boolean deptCheckBoxSelected) {
+        this.deptCheckBoxSelected = deptCheckBoxSelected;
+    }
+
+    public void rootDepHeadCheckBoxSelected(ValueChangeEvent cVce) {
+        this.setDeptCheckBoxSelected((Boolean)cVce.getNewValue());
+        if (isDeptCheckBoxSelected())
+            setToggledDepartList(rootDepartNameList);
+        else
+            setToggledDepartList(rootAndBranchDepartList);
     }
     
     public class EmployeeModel {

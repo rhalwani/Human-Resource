@@ -11,8 +11,8 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Hashtable;
-import javax.persistence.Query;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import javax.persistence.TypedQuery;
 import javax.persistence.EntityExistsException;
 import javax.validation.ConstraintViolationException;
@@ -47,44 +47,44 @@ public class DepartmentFacade extends AbstractFacade<Department> {
         em.persist(dep);
     }
 
-    public Hashtable<String, Short> getDepartmentNameIdHTable() {
+    public LinkedHashMap<String, Short> getDepartmentNameIdHTable() {
 
         List<Department> depList = this.findAll();
-        Hashtable<String, Short> departNameIdHTable = new Hashtable(depList.size());
+        LinkedHashMap<String, Short> departNameIdHTable = new LinkedHashMap(depList.size());
         for (Department dep : depList) {
             departNameIdHTable.put(dep.getDepartmentName(), dep.getDepID());
         }
         return departNameIdHTable;
     }
 
-    public Hashtable<String, Short> getRootDepartments() {
+    public LinkedHashMap<String, Short> getRootDepartments() {
 
         TypedQuery<Department> query = em.createNamedQuery("Department.findRootDeps", Department.class);
         List<Department> rootDepList = query.getResultList();
-        Hashtable rootDepartNameIdHTable = new Hashtable();
+        LinkedHashMap rootDepartNameIdHTable = new LinkedHashMap();
         for (Department dep : rootDepList) {
             rootDepartNameIdHTable.put(dep.getDepartmentName(), dep.getDepID());
         }
         return rootDepartNameIdHTable;
     }
     
-    public Hashtable<String, Short> getChildDepartments() {
+    public LinkedHashMap<String, Short> getChildDepartments() {
 
         TypedQuery<Department> query = em.createNamedQuery("Department.findChildDepartments", Department.class);
         List<Department> childDepList = query.getResultList();
-        Hashtable childDepartNameIdHTable = new Hashtable();
+        LinkedHashMap childDepartNameIdHTable = new LinkedHashMap();
         for (Department dep : childDepList) {
             childDepartNameIdHTable.put(dep.getDepartmentName(), dep.getDepID());
         }
         return childDepartNameIdHTable;
     }
     
-    public Hashtable<String, Short> getChildDepartments(Short DepID) {
+    public LinkedHashMap<String, Short> getChildDepartments(Short DepID) {
 
         TypedQuery<Department> query = em.createNamedQuery("Department.findAllChildDeps", Department.class);
         query.setParameter("rootDepID", this.find(DepID));
         List<Department> childDepList = query.getResultList();
-        Hashtable childDepartNameIdHTable = new Hashtable();
+        LinkedHashMap childDepartNameIdHTable = new LinkedHashMap();
         for (Department dep : childDepList) {
             childDepartNameIdHTable.put(dep.getDepartmentName(), dep.getDepID());
         }

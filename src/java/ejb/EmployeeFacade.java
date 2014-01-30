@@ -10,7 +10,7 @@ import entity.Employee;
 import entity.Job;
 import entity.Department;
 import entity.PersonalID;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import javax.ejb.Stateless;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -34,10 +34,10 @@ public class EmployeeFacade extends AbstractFacade<Employee> {
         super(Employee.class);
     }
     
-    public java.util.Hashtable<String, Integer> getEmployeeNamesId() {
+    public java.util.LinkedHashMap<String, Integer> getEmployeeNamesId() {
         
         java.util.List<Employee> allEmployeeList = this.findAll();
-        java.util.Hashtable<String, Integer> employeeNameIdHTable = new Hashtable(allEmployeeList.size());
+        java.util.LinkedHashMap<String, Integer> employeeNameIdHTable = new LinkedHashMap(allEmployeeList.size());
 
         for(Employee emp: allEmployeeList) {
             employeeNameIdHTable.put(emp.getFirstName()+" "+emp.getLastName()+" ("+emp.getEmpID()+") ", emp.getEmpID());

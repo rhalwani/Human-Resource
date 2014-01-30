@@ -13,6 +13,12 @@
         </h:form>
         <h:graphicImage url="#{resource['images:afrlogo.jpg']}" />
         <h1 style="padding-left: 38%; color: burlywood; font-family: 'Helvetica'; font-weight: bolder">Employee List</h1>
+        <h:form id="navform" prependId="false" style="padding-left: 40%">
+            <p:panelGrid columns="2">
+                <p:commandLink value="Home" action="/home/index?faces-redirect=true" />
+                <p:commandLink value="Employees Home" action="/home/employee_index?faces-redirect=true" />
+            </p:panelGrid>
+        </h:form>
         <p:spacer height="20 px" />
         <h:form id="employeevform" prependId="false">
             <p:dataTable id="employeedata"

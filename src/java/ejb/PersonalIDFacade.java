@@ -10,7 +10,7 @@ import entity.PersonalID;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -31,9 +31,9 @@ public class PersonalIDFacade extends AbstractFacade<PersonalID> {
         super(PersonalID.class);
     }
     
-    public Hashtable<String, Short> getPersonalIdHTable() {
+    public LinkedHashMap<String, Short> getPersonalIdHTable() {
         List<PersonalID> personIdList = this.findAll();
-        Hashtable<String, Short> personalIdHTable = new Hashtable(personIdList.size());
+        LinkedHashMap<String, Short> personalIdHTable = new LinkedHashMap(personIdList.size());
         for (PersonalID persId: personIdList) {
             personalIdHTable.put(persId.getPersonalIDDescription(), persId.getPersonalIDType());
         }

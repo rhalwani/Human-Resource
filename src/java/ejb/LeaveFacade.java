@@ -85,20 +85,20 @@ public class LeaveFacade extends AbstractFacade<Leave> {
         calendarStart.setTime(startDate);
         calendarEnd.setTime(endDate);
 
-        int leaveDaysCount = (int) (calendarEnd.getTimeInMillis() - calendarStart.getTimeInMillis()) / (24 * 60 * 60 * 1000);
+        long leaveDaysCount = (calendarEnd.getTimeInMillis() - calendarStart.getTimeInMillis()) / (24 * 60 * 60 * 1000);
         LinkedHashMap<Integer, int[]> daysAndTicketsBal = balEjb.getDaysAndTicketsBalance(employeeId, leaveTypeId);
 
         Iterator<Integer> balMapKeyIter = daysAndTicketsBal.keySet().iterator();
 
         while (balMapKeyIter.hasNext() && leaveDaysCount > 0) { //Maximum entries is three: previous year, current year, and next year
             int year = balMapKeyIter.next();
-            System.out.println("Year = " + year);
+            //System.out.println("Year = " + year);
             int[] startBal = daysAndTicketsBal.get(year);
             int daysStartBal = startBal[0], daysEndBal = startBal[0];
             int ticketsStartBal = startBal[1], ticketsEndBal = startBal[1];
 
             if (daysStartBal >= leaveDaysCount) {
-                daysEndBal = daysStartBal - leaveDaysCount;
+                daysEndBal = daysStartBal - (int)leaveDaysCount;
                 leaveDaysCount = 0;
             } else {
                 leaveDaysCount -= daysStartBal;

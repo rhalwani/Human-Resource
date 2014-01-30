@@ -11,7 +11,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Hashtable;
+import java.util.LinkedHashMap;
 
 /**
  *
@@ -31,14 +31,14 @@ public class LeaveTypeFacade extends AbstractFacade<LeaveType> {
         super(LeaveType.class);
     }
     
-    public Hashtable<String, Short> getLeaveTypeHTable() {
+    public LinkedHashMap<String, Short> getLeaveTypeHTable() {
         
         List<LeaveType> leaveTypesList = this.findAll();
-        Hashtable<String, Short> leaveTypeHashtable = new Hashtable(leaveTypesList.size());
+        LinkedHashMap<String, Short> leaveTypeLinkedHashMap = new LinkedHashMap(leaveTypesList.size());
         for(LeaveType leaveType: leaveTypesList) {
-            leaveTypeHashtable.put(leaveType.getLeaveDescription(), leaveType.getLeaveTypeID());
+            leaveTypeLinkedHashMap.put(leaveType.getLeaveDescription(), leaveType.getLeaveTypeID());
         }
-        return leaveTypeHashtable;
+        return leaveTypeLinkedHashMap;
     }
     
 }

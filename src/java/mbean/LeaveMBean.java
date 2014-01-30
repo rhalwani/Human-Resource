@@ -92,7 +92,6 @@ public class LeaveMBean implements java.io.Serializable {
     }
 
     public void addLeave() {
-        //System.out.println(getLeaveType() + " Leave for " + getEmployeeId() + " starts on " + getStartDate() + ", ends on " + getEndDate());
         leaveEjb.addLeave(this.getEmployeeId(), this.getLeaveType(), getStartDate(), getEndDate(), this.getReqTickets(), 1);
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Leave added!"));
     }
@@ -130,10 +129,7 @@ public class LeaveMBean implements java.io.Serializable {
     }
 
     public void searchLeave() {
-        System.out.println("Leave Searched for "+this.getEmployeeId().toString());
-
         ArrayList<Object[]> leaveList = leaveEjb.searchForLeave(this.getEmployeeId());
-        System.out.println("Leave List = "+leaveList);
 
         if (leaveList != null) {
             leaveModel = new ArrayList(leaveList.size());
@@ -196,7 +192,6 @@ public class LeaveMBean implements java.io.Serializable {
     public void selectedEmployeeChanged(ValueChangeEvent vce) {
         employeeId = Integer.valueOf(vce.getNewValue().toString());
         if (LeaveType != null && employeeId != null) {
-            //System.out.println("Employee Selected: " + employeeId.toString() + " for leave type " + LeaveType.toString());
             Iterator<Integer> resourceIter = leaveBalEjb.getDaysBalance(employeeId, LeaveType).values().iterator();
             availDays = 0;
             int ir = 0;

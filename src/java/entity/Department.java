@@ -33,12 +33,12 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Department.findAll", query = "SELECT d FROM Department d"),
     @NamedQuery(name = "Department.findByDepID", query = "SELECT d FROM Department d WHERE d.depID = :depID"),
     @NamedQuery(name = "Department.findByDepartmentName", query = "SELECT d FROM Department d WHERE d.departmentName = :departmentName"),
-    @NamedQuery(name = "Department.findRootDeps", query = "SELECT d FROM Department d WHERE d.rootDepID is null"),
-    @NamedQuery(name = "Department.findChildrenDeps", query = "SELECT d FROM Department d WHERE d.rootDepID is not null and d.parentDepID is not null"),
-    @NamedQuery(name = "Department.findAllChildDeps", query = "SELECT d FROM Department d WHERE d.rootDepID = :rootDepID"),
-    @NamedQuery(name = "Department.findChildrenDepsById", query = "SELECT d FROM Department d WHERE d.rootDepID = :rootDepID and d.parentDepID = :parentDepID"),
-    @NamedQuery(name = "Department.findAncestorDeps", query = "SELECT d FROM Department d WHERE d.parentDepID is null"),
-    @NamedQuery(name = "Department.findAncestorDepsById", query = "SELECT d FROM Department d WHERE d.parentDepID is null and d.rootDepID = :rootDepID")
+    @NamedQuery(name = "Department.findRootDeps", query = "SELECT d FROM Department d WHERE d.rootDepID is null order by d.departmentName"),
+    @NamedQuery(name = "Department.findChildrenDeps", query = "SELECT d FROM Department d WHERE d.rootDepID is not null and d.parentDepID is not null order by d.departmentName"),
+    @NamedQuery(name = "Department.findAllChildDeps", query = "SELECT d FROM Department d WHERE d.rootDepID = :rootDepID order by d.departmentName"),
+    @NamedQuery(name = "Department.findChildrenDepsById", query = "SELECT d FROM Department d WHERE d.rootDepID = :rootDepID and d.parentDepID = :parentDepID order by d.departmentName"),
+    @NamedQuery(name = "Department.findAncestorDeps", query = "SELECT d FROM Department d WHERE d.parentDepID is null order by d.departmentName"),
+    @NamedQuery(name = "Department.findAncestorDepsById", query = "SELECT d FROM Department d WHERE d.parentDepID is null and d.rootDepID = :rootDepID order by d.departmentName")
 })
 public class Department implements Serializable {
     @JoinColumn(name = "Mgr_ID", referencedColumnName = "Emp_ID")
